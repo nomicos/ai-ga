@@ -8,7 +8,7 @@ for i in range(population_size):
     population.append(Genome())
 
 # Go through 60 generations.
-for i in range(60):
+for i in range(generation_limit):
     durations = [x.duration for x in population]
     max_duration = max(durations)
     min_duration = min(durations)
