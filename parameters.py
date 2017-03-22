@@ -17,5 +17,8 @@ generation_limit = 150
 # How likely a genome is to mutate.
 mutation_rate = 0.03
 
+# How likely a crossover is to occur.
+crossover_rate = 0.8
+
 # Flag for elitism.
 elitism_on = True

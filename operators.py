@@ -29,15 +29,18 @@ def selection(population):
     return (population[parentA_idx], population[parentB_idx])
 
 def crossover(genomeA, genomeB):
-    # Note: Lengths of genomes are const and equal.
-    midpoint = randint(1, len(genomeA.genes) - 2)
-    offspring1 = Genome(False)
-    offspring2 = Genome(False)
-    offspring1.genes = genomeA.genes[:midpoint] + genomeB.genes[midpoint:]
-    offspring2.genes = genomeB.genes[:midpoint] + genomeA.genes[midpoint:]
-    #offspring1.update_duration()
-    #offspring2.update_duration()
-    return (offspring1, offspring2)
+    if randint(1,100) <= crossover_rate * 100.0:
+        # Note: Lengths of genomes are const and equal.
+        midpoint = randint(1, len(genomeA.genes) - 2)
+        offspring1 = Genome(False)
+        offspring2 = Genome(False)
+        offspring1.genes = genomeA.genes[:midpoint] + genomeB.genes[midpoint:]
+        offspring2.genes = genomeB.genes[:midpoint] + genomeA.genes[midpoint:]
+        #offspring1.update_duration()
+        #offspring2.update_duration()
+        return (offspring1, offspring2)
+    else:
+        return (genomeA, genomeB)
 
 def mutation(genome):
     result = Genome()
