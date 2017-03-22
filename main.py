@@ -21,8 +21,8 @@ for i in range(generation_limit):
     new_population = []
 
     if elitism_on:
-        # The 2 of the fittest make it to the new population.
-        new_population.extend(sorted(population, key=lambda x: x.duration)[:2])
+        # The fittest one make it to the new population.
+        new_population.extend(sorted(population, key=lambda x: x.duration)[:1])
 
     while len(new_population) < population_size:
         # Select parents, and crossover them to get 2 offsprings.
