@@ -14,7 +14,7 @@ for i in range(generation_limit):
     min_duration = min(durations)
     avg_duration = sum(durations) / len(durations)
 
-    print("Generation #{:<3} :: best {} / worst {} / avg {:.2f}"
+    print("Generation {:>3}  ::  best {:>4} | worst {:>4} | avg {:>6.1f}"
         .format(i+1, min_duration, max_duration, avg_duration))
     #print(durations)
 
