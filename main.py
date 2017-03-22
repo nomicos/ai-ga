@@ -1,0 +1,32 @@
+from parameters import *
+from genome import Genome
+from operators import selection, crossover, mutation
+
+# Initialize the first population, out of random genomes.
+population = []
+for i in range(population_size):
+    population.append(Genome())
+
+# Go through 60 generations.
+for i in range(60):
+    durations = [x.get_duration() for x in population]
+    max_duration = max(durations)
+    min_duration = min(durations)
+    avg_duration = sum(durations) / len(durations)
+
+    print("Generation #{:<3} :: best {} / worst {} / avg {:.2f}"
+        .format(i+1, min_duration, max_duration, avg_duration))
+
+    new_population = []
+
+    while len(new_population) < population_size:
+        # Select parents, and crossover them to get 2 offsprings.
+        pair_of_offsprings = crossover(*selection(population))
+
+        # Try each offspring for mutation, then append result.
+        new_population.append(mutation(pair_of_offsprings[0]))
+        new_population.append(mutation(pair_of_offsprings[1]))
+
+    del population
+
+    population = new_population
