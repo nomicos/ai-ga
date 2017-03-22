@@ -9,15 +9,20 @@ for i in range(population_size):
 
 # Go through 60 generations.
 for i in range(60):
-    durations = [x.get_duration() for x in population]
+    durations = [x.duration for x in population]
     max_duration = max(durations)
     min_duration = min(durations)
     avg_duration = sum(durations) / len(durations)
 
     print("Generation #{:<3} :: best {} / worst {} / avg {:.2f}"
         .format(i+1, min_duration, max_duration, avg_duration))
+    #print(durations)
 
     new_population = []
+
+    if elitism_on:
+        # The 2 of the fittest make it to the new population.
+        new_population.extend(sorted(population, key=lambda x: x.duration)[:2])
 
     while len(new_population) < population_size:
         # Select parents, and crossover them to get 2 offsprings.

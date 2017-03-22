@@ -3,10 +3,8 @@ from random import randint
 from genome import Genome
 
 def selection(population):
-    durations = [x.get_duration() for x in population]
+    durations = [x.duration for x in population]
     max_duration = max(durations)
-
-    #print(fitnesses)
 
     # Accept-reject selection for the first parent.
     safety_counter = 0
@@ -37,6 +35,8 @@ def crossover(genomeA, genomeB):
     offspring2 = Genome(False)
     offspring1.genes = genomeA.genes[:midpoint] + genomeB.genes[midpoint:]
     offspring2.genes = genomeB.genes[:midpoint] + genomeA.genes[midpoint:]
+    #offspring1.update_duration()
+    #offspring2.update_duration()
     return (offspring1, offspring2)
 
 def mutation(genome):

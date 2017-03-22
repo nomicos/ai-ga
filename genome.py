@@ -8,15 +8,18 @@ class Genome:
         # List of genes (i.e. resource indices for corresponding tasks).
         self.genes = []
 
+        self.duration = 0
+
         # The genome is either randomly initialized or empty.
         if random_genes:
             self.generate_random()
+            self.update_duration()
 
     def generate_random(self):
         for i in range(task_count):
             self.genes.append(randint(0, resource_count - 1))
 
-    def get_duration(self):
+    def update_duration(self):
         # List of each resource's workload (intially 0s).
         workloads = [0] * resource_count
 
@@ -28,7 +31,7 @@ class Genome:
 
         # Duration is the time needed for the most loaded resource
         # to complete their job, i.e. the soonest time everyone is done.
-        return max(workloads)
+        self.duration = max(workloads)
 
     def __repr__(self):
-        return "Genome: {}, duration = {}".format(self.genes, self.get_duration())
+        return "Genome: {}, duration = {}".format(self.genes, self.duration)
