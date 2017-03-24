@@ -5,49 +5,45 @@ from genome import Genome
 def selection(population):
     durations = [x.duration for x in population]
     max_duration = max(durations)
+    fitnesses = sorted([max_duration - x for x in durations])
+    population.sort(key=lambda x: max_duration - x.duration)
+    cdf_vals = [fitnesses[0]]
+    for i in fitnesses[1:]:
+        cdf_vals.append(i + cdf_vals[-1])
 
-    # Accept-reject selection for the first parent.
-    safety_counter = 0
-    while True:
-        safety_counter += 1
-        parentA_idx = randint(0, len(population) - 1)
-        if randint(0, int(max_duration)) > durations[parentA_idx]:
-            break
-        if safety_counter > 100:
-            break
+    i1 = 0
+    i2 = 0
 
-    # Accept-reject selection for the second parent.
-    safety_counter = 0
-    while True:
-        safety_counter += 1
-        parentB_idx = randint(0, len(population) - 1)
-        if randint(0, int(max_duration)) > durations[parentB_idx]:
-            break
-        if safety_counter > 100:
-            break
+    cdf_point = randint(0, cdf_vals[-1])
+    for idx, j in enumerate(cdf_vals):
+        if cdf_point < j:
+            i1 = idx
 
-    return (population[parentA_idx], population[parentB_idx])
+    cdf_point = randint(0, cdf_vals[-1])
+    for idx, j in enumerate(cdf_vals):
+        if cdf_point < j:
+            i2 = idx
 
-def crossover(genomeA, genomeB):
-    if randint(1,100) <= crossover_rate * 100.0:
-        # Note: Lengths of genomes are const and equal.
-        midpoint = randint(1, len(genomeA.genes) - 2)
-        offspring1 = Genome(False)
-        offspring2 = Genome(False)
-        offspring1.genes = genomeA.genes[:midpoint] + genomeB.genes[midpoint:]
-        offspring2.genes = genomeB.genes[:midpoint] + genomeA.genes[midpoint:]
-        #offspring1.update_duration()
-        #offspring2.update_duration()
-        return (offspring1, offspring2)
-    else:
-        return (genomeA, genomeB)
+    return (population[i1], population[i2])
+
+def crossover(parent_one, parent_two):
+    if randint(0,100) > crossover_rate * 100:
+        return (parent_one, parent_two)
+
+    midpoint = randint(1, task_count - 1)
+
+    offspring_one, offspring_two = Genome(False), Genome(False)
+    offspring_one.genes = parent_one.genes[:midpoint] + parent_two.genes[midpoint:]
+    offspring_two.genes = parent_two.genes[:midpoint] + parent_one.genes[midpoint:]
+    offspring_one.update_duration()
+    offspring_two.update_duration()
+
+    return (offspring_one, offspring_two)
 
 def mutation(genome):
-    result = Genome()
-    result.genes = genome.genes[:]
+    for i in range(task_count):
+        if randint(0, 100) <= mutation_rate * 100:
+            genome.genes[i] = randint(0, resource_count - 1)
 
-    for i in range(len(genome.genes)):
-        if randint(0, 100) <= mutation_rate * 100.0:
-            result.genes[i] = randint(0, resource_count - 1)
-
-    return result
+    genome.update_duration()
+    return genome

@@ -3,14 +3,9 @@ from random import randint
 
 class Genome:
     def __init__(self, random_genes=True):
-        '''Initialize a genome; with random genes if needed.'''
-
-        # List of genes (i.e. resource indices for corresponding tasks).
         self.genes = []
-
         self.duration = 0
 
-        # The genome is either randomly initialized or empty.
         if random_genes:
             self.generate_random()
             self.update_duration()
@@ -20,10 +15,7 @@ class Genome:
             self.genes.append(randint(0, resource_count - 1))
 
     def update_duration(self):
-        # List of each resource's workload (intially 0s).
         workloads = [0] * resource_count
-
-        #print("genes length: {}".format(len(self.genes)))
 
         # For each task, add its duration to the corresponding resource.
         for task_idx, resource_idx in enumerate(self.genes):
@@ -34,4 +26,4 @@ class Genome:
         self.duration = max(workloads)
 
     def __repr__(self):
-        return "Genome: {}, duration = {}".format(self.genes, self.duration)
+        return "{} (duration {})\n".format(self.genes, self.duration)
