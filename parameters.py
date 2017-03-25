@@ -12,7 +12,7 @@ resource_count = 7
 population_size = 50
 
 # Condition for the algorithm to stop: no. of generation.
-generation_limit = 500
+generation_limit = 50
 
 # How likely a genome is to mutate.
 mutation_rate = 0.03

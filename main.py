@@ -1,24 +1,8 @@
-from genome import Genome
-from parameters import *
-from operators import *
+from algorithm import algorithm
 
-population = [Genome() for i in range(population_size)]
+border_top = '  ' + '_' * 56 + ' \n | ' + '-' * 54 + ' |'
+border_bottom = ' | ' + '-' * 54 + ' |\n |' + '_' * 56 + '|'
 
-for i in range(generation_limit):
-    durations = [x.duration for x in population]
-    print(" || Generation {:>3}  || best {:>4} | worst {:>4} | avg {:>6.1f} |"
-        .format(i+1, min(durations), max(durations), sum(durations) / population_size))
-
-    new_population = []
-
-    if elitism_on:
-        new_population.extend(sorted(population, key=lambda x: x.duration)[:2])
-
-    while len(new_population) < population_size:
-        (offspring_one, offspring_two) = crossover(*selection(population))
-        new_population.append(mutation(offspring_one))
-        new_population.append(mutation(offspring_two))
-
-    del population
-
-    population = new_population
+print(border_top)
+algorithm()
+print(border_bottom)
