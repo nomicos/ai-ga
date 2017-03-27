@@ -2,13 +2,22 @@ from genome import Genome
 from parameters import *
 from operators import *
 
-def algorithm():
+
+
+
+def algorithm() -> tuple:
     population = [Genome() for i in range(population_size)]
+
+    best_stats, worst_stats, avg_stats = [], [], []
 
     for i in range(generation_limit):
         durations = [x.duration for x in population]
+        best, worst, avg = min(durations), max(durations), sum(durations) / population_size
         print(" | Generation {:>3}  || best {:>4} | worst {:>4} | avg {:>6.1f} |"
-            .format(i+1, min(durations), max(durations), sum(durations) / population_size))
+            .format(i+1, best, worst, avg))
+        best_stats.append(best)
+        worst_stats.append(worst)
+        avg_stats.append(avg)
 
         new_population = []
 
@@ -23,3 +32,5 @@ def algorithm():
         del population
 
         population = new_population
+
+    return (best_stats, worst_stats, avg_stats)

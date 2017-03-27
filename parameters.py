@@ -9,10 +9,10 @@ resource_count = 7
 
 # How many individuals (genomes) there are in the population.
 # Should be even, as the number of offsprings is even.
-population_size = 50
+population_size = 100
 
 # Condition for the algorithm to stop: no. of generation.
-generation_limit = 50
+generation_limit = 200
 
 # How likely a genome is to mutate.
 mutation_rate = 0.03
