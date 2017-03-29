@@ -10,6 +10,8 @@ def algorithm() -> tuple:
 
     best_stats, worst_stats, avg_stats = [], [], []
 
+    best_genome = population[0]
+
     for i in range(generation_limit):
         durations = [x.duration for x in population]
         best, worst, avg = min(durations), max(durations), sum(durations) / population_size
@@ -29,8 +31,13 @@ def algorithm() -> tuple:
             new_population.append(mutation(offspring_one))
             new_population.append(mutation(offspring_two))
 
+            if offspring_one.duration < best_genome.duration:
+                best_genome = offspring_one
+            if offspring_two.duration < best_genome.duration:
+                best_genome = offspring_two
+
         del population
 
         population = new_population
 
-    return (best_stats, worst_stats, avg_stats)
+    return best_genome, (best_stats, worst_stats, avg_stats)

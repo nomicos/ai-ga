@@ -3,13 +3,15 @@ from random import randint
 from genome import Genome
 
 def selection(population):
-    durations = [x.duration for x in population]
-    max_duration = max(durations)
-    fitnesses = sorted([max_duration - x for x in durations])
-    population.sort(key=lambda x: max_duration - x.duration)
-    cdf_vals = [fitnesses[0]]
-    for i in fitnesses[1:]:
-        cdf_vals.append(i + cdf_vals[-1])
+    # durations = [x.duration for x in population]
+    # max_duration = max(durations)
+    # fitnesses = sorted([max_duration - x for x in durations])
+    population.sort(key=lambda x: x.duration, reverse=True)
+    max_duration = population[0].duration
+
+    cdf_vals = [0]
+    for i in population[1:]:
+        cdf_vals.append((max_duration - i.duration) + cdf_vals[-1])
 
     i1 = 0
     i2 = 0
